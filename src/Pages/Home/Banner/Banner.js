@@ -4,7 +4,7 @@ import PrimaryButton from "../../../components/PrimaryButton/PrimaryButton";
 
 const Banner = () => {
   return (
-    <div className="hero">
+    <div className="hero mt-20">
       <div className="hero-content flex-col lg:flex-row-reverse">
         <img
           src={chairImg}
