@@ -1,5 +1,6 @@
 import React from "react";
 import chairImg from '../../../assets/images/chair.png';
+import PrimaryButton from "../../../components/PrimaryButton/PrimaryButton";
 
 const Banner = () => {
   return (
@@ -7,7 +8,7 @@ const Banner = () => {
       <div className="hero-content flex-col lg:flex-row-reverse">
         <img
           src={chairImg}
-          className=" rounded-lg shadow-2xl w-1/2"
+          className=" rounded-lg shadow-2xl lg:w-1/2"
           alt=""
         />
         <div>
@@ -15,7 +16,7 @@ const Banner = () => {
           <p className="py-6">
           Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the
           </p>
-          <button className="btn btn-primary bg-gradient-to-r from-primary to-secondary text-white">Get Started</button>
+          <PrimaryButton>Getting Started</PrimaryButton>
         </div>
       </div>
     </div>
