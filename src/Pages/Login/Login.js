@@ -3,8 +3,12 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-  const { register, handleSubmit } = useForm();
- const handleLogin = (data) => console.log(data);
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm();
+  const handleLogin = (data) => console.log(data);
   return (
     <div className="h-[800px] flex justify-center items-center p-4">
       <div className="w-96">
@@ -18,8 +22,11 @@ const Login = () => {
             <input
               type="text"
               className="input input-bordered w-full"
-              {...register("email")}
+              {...register("email", { required: "Email Address is required" })}
             />
+            {errors.email && (
+              <p className="text-error">{errors.email?.message}</p>
+            )}
           </div>
           <div className="form-control w-full">
             <label className="label">
@@ -29,8 +36,14 @@ const Login = () => {
             <input
               type="text"
               className="input input-bordered w-full"
-              {...register("password")}
+              {...register("password", {
+                required: "password id required",
+                minLength : {value: 6, message:'password must be 6 characters and longer'}
+              })}
             />
+            {errors.password && (
+              <p className="text-error">{errors.password?.message}</p>
+            )}
           </div>
           <label className="label">
             <span className="label-text">Forget password?</span>
@@ -44,11 +57,13 @@ const Login = () => {
         </form>
         <small>
           New to Doctors Portal?{" "}
-          <Link className="text-primary">Create new account</Link>
-                  <div className="divider">OR</div>
-                  
-                  <button className="uppercase btn btn-outline w-full">Continue with Google</button>
+          <Link to="/signup" className="text-primary">Create new account</Link>
+        
         </small>
+        <div className="divider">OR</div>
+          <button className="uppercase btn btn-outline w-full">
+            Continue with Google
+          </button>
       </div>
     </div>
   );
