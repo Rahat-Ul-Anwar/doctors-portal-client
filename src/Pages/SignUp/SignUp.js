@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../contexts/AuthProvider/AuthProvider";
 
 const SignUp = () => {
   const {
@@ -9,8 +11,28 @@ const SignUp = () => {
     formState: { errors },
   } = useForm();
 
+  const { createUser, updateUser } = useContext(AuthContext);
+  const [signUpError, setSignUpError] = useState("");
+
   const handleSignUp = (data) => {
     console.log(data);
+    setSignUpError("");
+    createUser(data.email, data.password)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+        toast("User Created Successfully.");
+        const userInfo = {
+          displayName: data.name,
+        };
+        updateUser(userInfo)
+          .then(() => {})
+          .catch((error) => console.log(error));
+      })
+      .catch((error) => {
+        console.log(error);
+        setSignUpError(error.message);
+      });
   };
   return (
     <div className="h-[800px] flex justify-center items-center p-4">
@@ -58,12 +80,14 @@ const SignUp = () => {
               type="password"
               {...register("password", {
                 required: "password is required",
-                  minLength: { value: 6, message: "password must be 6 characters long" },
-                  pattern: { value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/,
-                      message:"password must be strong" 
-                
-                    }
-                
+                minLength: {
+                  value: 6,
+                  message: "password must be 6 characters long",
+                },
+                pattern: {
+                  value: /(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])/,
+                  message: "password must be strong",
+                },
               })}
               className="input input-bordered w-full"
             />
@@ -81,6 +105,7 @@ const SignUp = () => {
             value="Log In"
             className="btn btn-primary w-full"
           />
+          {signUpError && <p className="text-error">{signUpError}</p>}
         </form>
         <small>
           All ready have an account? please,
